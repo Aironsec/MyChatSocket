@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<SplitPane dividerPositions="0.3403205918618989" prefHeight="500.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller">
+    <items>
+        <AnchorPane maxWidth="300.0" minHeight="0.0" minWidth="200.0" prefHeight="598.0" prefWidth="233.0">
+         <children>
+            <ListView focusTraversable="false" layoutY="39.0" prefHeight="360.0" prefWidth="201.0" AnchorPane.bottomAnchor="99.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="39.0" />
+            <Label focusTraversable="false" layoutX="6.0" layoutY="8.0" text="Список пользователей:" textFill="#2a4bda" AnchorPane.leftAnchor="6.0" AnchorPane.topAnchor="8.0">
+               <font>
+                  <Font name="System Bold Italic" size="14.0" />
+               </font>
+            </Label>
+         </children></AnchorPane>
+        <AnchorPane minHeight="0.0" minWidth="385.0" prefHeight="498.0" prefWidth="335.0">
+            <children>
+                <Button focusTraversable="false" layoutX="200.0" layoutY="405.0" mnemonicParsing="false" onAction="#send" prefHeight="89.0" prefWidth="95.0" text="Отправить" textFill="#6237f0" AnchorPane.bottomAnchor="4.0" AnchorPane.rightAnchor="0.0">
+                    <font>
+                        <Font name="System Bold Italic" size="12.0" />
+                    </font>
+                </Button>
+                <TextArea fx:id="textSend" layoutY="404.0" onKeyPressed="#sendText" prefHeight="89.0" prefWidth="192.0" wrapText="true" AnchorPane.bottomAnchor="4.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="100.0" />
+            <ListView fx:id="listMess" focusTraversable="false" layoutY="39.0" prefHeight="360.0" prefWidth="391.0" stylesheets="@style.css" AnchorPane.bottomAnchor="99.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="39.0" />
+            <TextField fx:id="userName" focusTraversable="false" layoutX="57.0" layoutY="7.0" promptText="Введите имя" AnchorPane.leftAnchor="57.0" AnchorPane.topAnchor="7.0">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </TextField>
+            <Label focusTraversable="false" layoutX="14.0" layoutY="10.0" text="Имя:" textFill="#e25858" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="10.0">
+               <font>
+                  <Font name="System Bold Italic" size="14.0" />
+               </font>
+            </Label>
+            </children></AnchorPane>
+    </items>
+    <opaqueInsets>
+        <Insets />
+    </opaqueInsets>
+</SplitPane>
