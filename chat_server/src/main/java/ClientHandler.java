@@ -29,14 +29,19 @@ public class ClientHandler implements Runnable {
     }
 
     public void welcome() throws IOException {
-        out.writeUTF("/newUser" + nickName);
-        out.flush();
+        if (Server.getClients().isEmpty()) {
+            sendMessage("/newUser" + nickName);
+        } else {
+            for (ClientHandler client : Server.getClients()) {
+                client.sendMessage("/newUser" + nickName);
+            }
+        }
     }
 
     public void broadCastMessage(String message) throws IOException {
         for (ClientHandler client : Server.getClients()) {
 //            if (!client.equals(this)) {
-                client.sendMessage("Всем:\n" + message);
+            client.sendMessage(message);
 //            }
         }
     }
@@ -67,7 +72,8 @@ public class ClientHandler implements Runnable {
                     String clientMessage = in.readUTF();
                     if (clientMessage.equals("/exit")) {
                         Server.getClients().remove(this);
-                        sendMessage(clientMessage);
+                        // TODO: 22.05.2020
+                        broadCastMessage(clientMessage + nickName);
                         break;
                     }
                     if (clientMessage.startsWith("/w")) {

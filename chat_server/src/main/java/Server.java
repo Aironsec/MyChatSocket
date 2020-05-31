@@ -1,5 +1,6 @@
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.sql.*;
 import java.util.concurrent.ConcurrentLinkedDeque;
 
 public class Server {
@@ -34,7 +35,11 @@ public class Server {
         }
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws ClassNotFoundException, SQLException {
+        Class.forName("org.sqlite.JDBC");
+        Connection connection = DriverManager.getConnection("jdbc:sqlite:chat_server/src/main/resources/chat.db");
+        Statement stmt = connection.createStatement();
+        stmt.executeUpdate("insert into USER(user_name) values('User2')");
         new Server(PORT);
     }
 }

@@ -11,7 +11,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 
-public class Controller implements Runnable, Initializable {
+public class ControllerMain implements Runnable, Initializable {
 
     public TextArea textSend;
     public ListView<String> listMess;
@@ -19,6 +19,13 @@ public class Controller implements Runnable, Initializable {
 
     private static DataInputStream in;
     private static DataOutputStream out;
+    public ListView<String> listUser;
+
+    private static String userID = null;
+
+    public static String getUserID() {
+        return userID;
+    }
 
     @Override
     protected void finalize() throws Throwable {
@@ -84,14 +91,25 @@ public class Controller implements Runnable, Initializable {
             while (socket.isConnected()) {
                 String message = in.readUTF();
                 if (message.startsWith("/")) {
-                    if (message.equals("/exit")) {
-                        in.close();
-                        out.close();
-                        socket.close();
-                        break;
+                    if (message.startsWith("/exit")) {
+                        String str = message.replace("/exit", "").trim();
+                        if (userID.equals(str)) {
+                            in.close();
+                            out.close();
+                            socket.close();
+                            break;
+                        } else {
+                            listUser.getItems().remove(str);
+                        }
                     }
                     if (message.startsWith("/newUser")) {
-                        userName.setText(message.replace("/newUser", "").trim());
+                        String newUser = message.replace("/newUser", "").trim();
+                        if (userID == null) {
+                            userName.setText(newUser);
+                            userID = newUser;
+                        } else {
+                            listUser.getItems().add(newUser);
+                        }
                     }
                 } else {
                     addListMessage(message);

@@ -7,14 +7,14 @@ import javafx.stage.Stage;
 public class Main extends Application {
     @Override
     public void stop() throws Exception {
-        Controller.sendMessage("/exit");
-        System.exit(0);
+//        Заверщение клиента по крестику работает отлично
+        ControllerMain.sendMessage("/exit" + ControllerMain.getUserID());
         super.stop();
     }
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("main.fxml"));
         primaryStage.setTitle("Работун чат");
         primaryStage.setScene(new Scene(root));
         primaryStage.setMinWidth(400.0);
