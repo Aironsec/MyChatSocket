@@ -1,21 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.*?>
+<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<SplitPane dividerPositions="0.3403205918618989" prefHeight="500.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ControllerMain">
+<SplitPane dividerPositions="0.3403205918618989" prefHeight="500.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ControllerChat">
     <items>
         <AnchorPane maxWidth="300.0" minHeight="0.0" minWidth="200.0" prefHeight="598.0" prefWidth="233.0">
-         <children>
-            <ListView fx:id="listUser" focusTraversable="false" layoutY="39.0" prefHeight="456.0" prefWidth="201.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="39.0" />
-            <Label focusTraversable="false" layoutX="6.0" layoutY="8.0" text="Список пользователей:" textFill="#2a4bda" AnchorPane.leftAnchor="6.0" AnchorPane.topAnchor="8.0">
-               <font>
-                  <Font name="System Bold Italic" size="14.0" />
-               </font>
-            </Label>
-         </children></AnchorPane>
+            <children>
+                <ListView fx:id="listUser" focusTraversable="false" layoutY="77.0" prefHeight="421.0" prefWidth="201.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="77.0" />
+
+                <Label fx:id="userName" focusTraversable="false" layoutX="78.0" layoutY="40.0" onMouseEntered="#mouseEnterUserName" onMouseExited="#mouseExitUserName" text="User" textFill="#6d87c3" AnchorPane.leftAnchor="78.0" AnchorPane.topAnchor="40.0">
+                    <font>
+                        <Font name="System Bold" size="18.0" />
+                    </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+                </Label>
+            <ImageView fitHeight="64.0" fitWidth="68.0" layoutX="6.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="6.0" AnchorPane.topAnchor="6.0">
+               <image>
+                  <Image url="@image/user-icon.png" />
+               </image></ImageView>
+            </children></AnchorPane>
         <AnchorPane minHeight="0.0" minWidth="385.0" prefHeight="498.0" prefWidth="335.0">
             <children>
                 <Button focusTraversable="false" layoutX="200.0" layoutY="405.0" mnemonicParsing="false" onAction="#send" prefHeight="89.0" prefWidth="95.0" text="Отправить" textFill="#6237f0" AnchorPane.bottomAnchor="4.0" AnchorPane.rightAnchor="0.0">
@@ -23,19 +33,32 @@
                         <Font name="System Bold Italic" size="12.0" />
                     </font>
                 </Button>
-                <TextArea fx:id="textSend" layoutY="404.0" onKeyPressed="#sendText" prefHeight="89.0" prefWidth="192.0" wrapText="true" AnchorPane.bottomAnchor="4.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="100.0" />
-            <ListView fx:id="listMess" focusTraversable="false" layoutY="39.0" prefHeight="360.0" prefWidth="391.0" stylesheets="@style.css" AnchorPane.bottomAnchor="99.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="39.0" />
-            <TextField fx:id="userName" focusTraversable="false" layoutX="57.0" layoutY="7.0" prefHeight="30.0" prefWidth="116.0" promptText="Введите имя" AnchorPane.leftAnchor="57.0" AnchorPane.topAnchor="7.0">
-               <font>
-                  <Font name="System Bold" size="14.0" />
-               </font>
-            </TextField>
-            <Label focusTraversable="false" layoutX="14.0" layoutY="10.0" text="Имя:" textFill="#e25858" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="10.0">
-               <font>
-                  <Font name="System Bold Italic" size="14.0" />
-               </font>
-            </Label>
-            <Button layoutX="173.0" layoutY="7.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="70.0" text="Изменить" />
+                <TextArea fx:id="textSend" layoutX="2.0" layoutY="404.0" onKeyPressed="#sendText" prefHeight="89.0" prefWidth="231.0" wrapText="true" AnchorPane.bottomAnchor="4.0" AnchorPane.leftAnchor="2.0" AnchorPane.rightAnchor="158.0" />
+                <ListView fx:id="listMess" focusTraversable="false" layoutY="78.0" prefHeight="321.0" prefWidth="391.0" stylesheets="@style.css" AnchorPane.bottomAnchor="99.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="78.0" />
+                <Label focusTraversable="false" layoutX="14.0" layoutY="10.0" text="Задания сегодня:" textFill="#e25858" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="10.0">
+                    <font>
+                        <Font name="System Bold Italic" size="18.0" />
+                    </font>
+
+                </Label>
+                <Label fx:id="taskValue" focusTraversable="false" layoutX="175.0" onMouseEntered="#mouseEnterTask" onMouseExited="#mouseExitTask" text="0" textFill="#e25858" AnchorPane.leftAnchor="175.0" AnchorPane.topAnchor="0.0">
+                    <font>
+                        <Font name="Times New Roman" size="36.0" />
+                    </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+
+                </Label>
+            <ImageView fitHeight="40.0" fitWidth="38.0" layoutX="244.0" layoutY="409.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@image/task.png" />
+               </image>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </ImageView>
+
             </children></AnchorPane>
     </items>
     <opaqueInsets>

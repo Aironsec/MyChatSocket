@@ -5,20 +5,18 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class Main extends Application {
-    @Override
-    public void stop() throws Exception {
-//        Заверщение клиента по крестику работает отлично
-        ControllerMain.sendMessage("/exit" + ControllerMain.getUserID());
-        super.stop();
-    }
+
+    public static Stage stage;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("main.fxml"));
-        primaryStage.setTitle("Работун чат");
-        primaryStage.setScene(new Scene(root));
-        primaryStage.setMinWidth(400.0);
-        primaryStage.setMinHeight(300);
+        stage = primaryStage;
+        Parent winLogin = FXMLLoader.load(getClass().getResource("login.fxml"));
+        primaryStage.setTitle("Войти в чат");
+        primaryStage.setScene(new Scene(winLogin));
+        primaryStage.setResizable(false);
+//        primaryStage.setAlwaysOnTop(true);
+        primaryStage.setOnCloseRequest(e -> System.out.println("Close form login"));
         primaryStage.show();
     }
 

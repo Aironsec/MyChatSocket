@@ -7,7 +7,7 @@ public class Server {
 
     private final static int PORT = 8189;
     private final static String HOST = "localhost";
-    private static int cnt = 1;
+    private static Statement stmt;
 
     private boolean running;
     public static ConcurrentLinkedDeque<ClientHandler> clients;
@@ -16,18 +16,25 @@ public class Server {
         return clients;
     }
 
+    public static Statement getStmt() {
+        return stmt;
+    }
+
     public Server(int port) {
         running = true;
         clients = new ConcurrentLinkedDeque<>();
         try (ServerSocket srv = new ServerSocket(PORT)) {
             System.out.println("Server started!");
+            Class.forName("org.sqlite.JDBC");
+            Connection connection = DriverManager.getConnection("jdbc:sqlite:chat_server/src/main/resources/chat.db");
+            stmt = connection.createStatement();
             while (running) {
                 Socket socket = srv.accept();
-                ClientHandler client = new ClientHandler(socket, "User" + cnt);
-                cnt++;
+                ClientHandler client = new ClientHandler(socket, "?User");
+
                 clients.add(client); // can produce CME (concurrent modification exception)
 
-                System.out.println(client.getNickName() + " accepted!");
+                System.out.println(client.getLogin() + " проверка!");
                 new Thread(client).start();
             }
         } catch (Exception e) {
@@ -35,11 +42,7 @@ public class Server {
         }
     }
 
-    public static void main(String[] args) throws ClassNotFoundException, SQLException {
-        Class.forName("org.sqlite.JDBC");
-        Connection connection = DriverManager.getConnection("jdbc:sqlite:chat_server/src/main/resources/chat.db");
-        Statement stmt = connection.createStatement();
-        stmt.executeUpdate("insert into USER(user_name) values('User2')");
+    public static void main(String[] args) {
         new Server(PORT);
     }
 }
