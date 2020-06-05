@@ -23,7 +23,6 @@ public class ControllerChat implements Initializable {
 
     public void send() throws IOException {
         if (textSend.getText().isEmpty()) return;
-//        addListMessage(textSend.getText());
         ConnectClient.sendMessage(null, ConnectClient.getLogin(), null, textSend.getText());
         textSend.clear();
     }

@@ -7,7 +7,6 @@ public class Server {
 
     private final static int PORT = 8189;
     private final static String HOST = "localhost";
-    private static Statement stmt;
 
     private boolean running;
     public static ConcurrentLinkedDeque<ClientHandler> clients;
@@ -16,21 +15,15 @@ public class Server {
         return clients;
     }
 
-    public static Statement getStmt() {
-        return stmt;
-    }
-
     public Server(int port) {
         running = true;
         clients = new ConcurrentLinkedDeque<>();
         try (ServerSocket srv = new ServerSocket(PORT)) {
-            System.out.println("Server started!");
-            Class.forName("org.sqlite.JDBC");
-            Connection connection = DriverManager.getConnection("jdbc:sqlite:chat_server/src/main/resources/chat.db");
-            stmt = connection.createStatement();
+
+            Bd bd = new Bd();
             while (running) {
                 Socket socket = srv.accept();
-                ClientHandler client = new ClientHandler(socket, "?User");
+                ClientHandler client = new ClientHandler(socket, "?User", bd);
 
                 clients.add(client); // can produce CME (concurrent modification exception)
 
@@ -42,7 +35,7 @@ public class Server {
         }
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args){
         new Server(PORT);
     }
 }

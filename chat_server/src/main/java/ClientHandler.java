@@ -11,15 +11,14 @@ public class ClientHandler implements Runnable {
     private final ObjectOutputStream out;
     private String login;
     private boolean running;
+    private final Bd bd;
 
-    public ClientHandler(Socket socket, String login) throws IOException {
+    public ClientHandler(Socket socket, String login, Bd bd) throws IOException {
+        this.bd = bd;
         this.socket = socket;
         this.login = login;
-        System.out.println("1");
         out = new ObjectOutputStream(socket.getOutputStream());
-        System.out.println("2");
         in = new ObjectInputStream(socket.getInputStream());
-        System.out.println("3");
         running = true;
         welcome();
     }
@@ -28,18 +27,15 @@ public class ClientHandler implements Runnable {
         return login;
     }
 
-    public void setLogin(String login) {
-        this.login = login;
-    }
-
     public void welcome() throws IOException {
         if (Server.getClients().isEmpty()) {
-            sendMessage("/newUser", login, null, null);
+            sendMessage(Command.NEWUSER.getComm(), login, null, null);
         } else {
             for (ClientHandler client : Server.getClients()) {
-                client.sendMessage("/newUser", login, null, null);
+                client.sendMessage(Command.NEWUSER.getComm(), login, null, null);
             }
         }
+
     }
 
     public void broadCastMessage(String cmd, String login, String pass, String message) throws IOException {
@@ -77,30 +73,30 @@ public class ClientHandler implements Runnable {
                     Message message = (Message) in.readObject();
                     in.readChar();
                     if (message.getCmd() != null) {
-                        if (message.getCmd().equals("/exit")) {
-                            broadCastMessage("/exit", login, null, login + " отключился");
+                        if (message.getCmd().equals(Command.EXIT.getComm())) {
+                            broadCastMessage(Command.EXIT.getComm(), login, null, login + " отключился");
                             Server.getClients().remove(this);
-                            System.out.println(login + " exit!");
+                            System.out.println(login + " покинул чат!");
                             break;
                         }
 
-                        if (message.getCmd().equals("?User")) {
-                            ResultSet res = Server.getStmt().executeQuery(
-                                    "select * from user\n" +
-                                    "where user_name = '" + message.getLogin() + "'");
+                        if (message.getCmd().equals(Command.WHOUSER.getComm())) {
+                            ResultSet res = bd.findUser(message.getLogin());
                             if (!res.isClosed()) {
                                 if (res.getString("pass").equals(message.getPass())){
                                     login = message.getLogin();
-                                    sendMessage("/newUser", login, null, login + " подключился");
+                                    sendMessage(Command.NEWUSER.getComm(), login, null, login + " подключился");
+                                    res.close();
                                 } else {
                                     //Не верный пароль
-                                    sendMessage("/notPass", null, null, null);
+                                    sendMessage(Command.NOTPASS.getComm(), null, null, null);
                                     Server.getClients().remove(this);
+                                    res.close();
                                     break;
                                 }
                             } else {
                                 //Пользователя нет
-                                sendMessage("/notUser", null, null, null);
+                                sendMessage(Command.NOTUSER.getComm(), null, null, null);
                                 Server.getClients().remove(this);
                                 break;
                             }

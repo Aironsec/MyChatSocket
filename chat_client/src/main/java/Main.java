@@ -6,16 +6,15 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
 
-    public static Stage stage;
+    public static Stage stageForm;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        stage = primaryStage;
+        stageForm = primaryStage;
         Parent winLogin = FXMLLoader.load(getClass().getResource("login.fxml"));
         primaryStage.setTitle("Войти в чат");
         primaryStage.setScene(new Scene(winLogin));
         primaryStage.setResizable(false);
-//        primaryStage.setAlwaysOnTop(true);
         primaryStage.setOnCloseRequest(e -> System.out.println("Close form login"));
         primaryStage.show();
     }

@@ -1,5 +1,6 @@
 import java.io.Serializable;
 import java.sql.Time;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Message implements Serializable {
@@ -49,7 +50,7 @@ public class Message implements Serializable {
     }
 
     public String getDate(){
-        Time tm = new Time(this.time.getTime());
-        return tm.toString();
+        SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyy hh:mm");
+        return format.format(time.getTime());
     }
 }
