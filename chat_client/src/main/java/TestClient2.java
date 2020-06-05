@@ -1,8 +1,7 @@
 import com.sun.xml.internal.bind.v2.model.core.EnumLeafInfo;
+import org.omg.CORBA.Object;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.net.Socket;
 import java.util.Scanner;
 
@@ -12,8 +11,8 @@ public class TestClient2 {
 
     public static void main(String[] args) {
         try (Socket socket = new Socket("localhost", 8189)) {
-            DataInputStream in = new DataInputStream(socket.getInputStream());
-            DataOutputStream out = new DataOutputStream(socket.getOutputStream());
+            ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
+            ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
             boolean running = true;
             Scanner cin = new Scanner(System.in);
 
